@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "recipe-creator-a9cc4": {
+      "hosting": {
+        "recipe-creator": [
+          "recipe-creator-a9cc4"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "recipe-creator-a9cc4"
+  }
+}

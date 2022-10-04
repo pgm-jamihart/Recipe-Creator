@@ -100,6 +100,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "recipe-creator:build:production",
+            "firebaseProject": "recipe-creator-a9cc4",
+            "firebaseHostingSite": "recipe-creator-a9cc4"
+          }
         }
       }
     }
