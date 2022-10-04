@@ -1,1 +1,13 @@
 <p>recipe-board works!</p>
+
+<ul>
+  <li *ngFor="let recipe of recipeList">
+    <ng-container>{{ recipe.title }} - {{ recipe.createdBy }}</ng-container>
+
+    <ul>
+      <li *ngFor="let ingredient of recipe.ingredients">
+        <ng-container>{{ ingredient }}</ng-container>
+      </li>
+    </ul>
+  </li>
+</ul>

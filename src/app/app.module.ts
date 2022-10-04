@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
+import { RecipeBoardComponent } from './recipe-board/recipe-board.component';
+import { RecipeBoardModule } from './recipe-board/recipe-board.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     AuthModule,
+    RecipeBoardModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],
