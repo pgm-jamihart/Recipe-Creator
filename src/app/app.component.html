@@ -1,1 +1,15 @@
+<nav>
+  <div>
+    <a routerLink="/">Recipe Creator</a>
+  </div>
+  <div>
+    <ng-container *ngIf="!isAuthenticated()">
+      <a routerLink="/login"> Login</a>
+    </ng-container>
+    <ng-container *ngIf="isAuthenticated()">
+      <button (click)="logout()">Logout</button>
+    </ng-container>
+  </div>
+</nav>
+
 <router-outlet></router-outlet>

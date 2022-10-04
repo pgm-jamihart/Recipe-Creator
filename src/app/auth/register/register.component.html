@@ -1,1 +1,38 @@
-<p>register works!</p>
+<div>
+  <form>
+    <h1>Register</h1>
+    <div>
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email Address"
+        name="email"
+        required
+        autocomplete
+        [(ngModel)]="email"
+      />
+    </div>
+
+    <div class="my-5 w-full">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        name="password"
+        required
+        autocomplete
+        [(ngModel)]="password"
+      />
+    </div>
+
+    <div>
+      <button (click)="register()" type="submit">Submit</button>
+    </div>
+  </form>
+
+  <div>
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+  </div>
+</div>
