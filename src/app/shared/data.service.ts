@@ -14,8 +14,7 @@ export class DataService {
   }
 
   // add a recipe
-  addRecipe(recipe: Recipe) {
-    recipe.id = this.afs.createId();
+  addRecipe(recipe: any) {
     return this.afs.collection('recipes').add(recipe);
   }
 
@@ -39,5 +38,10 @@ export class DataService {
     return this.afs
       .collection('recipes', (ref) => ref.where('createdBy', '==', userId))
       .snapshotChanges();
+  }
+
+  // get all ingredients
+  getIngredients() {
+    return this.afs.collection('ingredients').snapshotChanges();
   }
 }

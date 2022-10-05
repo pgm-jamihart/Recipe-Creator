@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { Recipe } from '../model/recipe';
+import { Ingredients, Recipe } from '../model/recipe';
 import { DataService } from '../shared/data.service';
 
 @Component({
@@ -10,7 +10,17 @@ import { DataService } from '../shared/data.service';
 })
 export class MyRecipesComponent implements OnInit {
   userRecipeList: Recipe[] = [];
-  userId: string | null = localStorage.getItem('userId');
+  IngredientsList: Ingredients[] = [];
+  user = JSON.parse(localStorage.getItem('user') || '{}');
+  selectedIngredients: string[] = [];
+
+  recipe = {
+    title: '',
+    createdBy: this.user.uid,
+    createdByEmail: this.user.email,
+    createdDate: new Date(),
+    ingredients: this.IngredientsList,
+  };
 
   constructor(
     private authService: AuthService,
@@ -19,12 +29,13 @@ export class MyRecipesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllRecipesByUser();
+    this.getAllIngredients();
   }
 
   getAllRecipesByUser() {
-    if (!this.userId) return;
+    if (!this.user) return;
 
-    this.dataService.getRecipesByUser(this.userId).subscribe(
+    this.dataService.getRecipesByUser(this.user.uid).subscribe(
       (results) => {
         this.userRecipeList = results.map((result: any) => {
           const data = result.payload.doc.data();
@@ -39,6 +50,21 @@ export class MyRecipesComponent implements OnInit {
     );
   }
 
+  getAllIngredients() {
+    this.dataService.getIngredients().subscribe(
+      (results) => {
+        this.IngredientsList = results.map((result: any) => {
+          const data = result.payload.doc.data();
+          return data;
+        });
+      },
+      (error) => {
+        console.log(error);
+        alert('Error getting ingredients');
+      }
+    );
+  }
+
   deleteRecipe(recipeId: string) {
     this.dataService.deleteRecipe(recipeId).then(
       () => {
@@ -48,6 +74,59 @@ export class MyRecipesComponent implements OnInit {
       (error) => {
         console.log(error);
         alert('Error deleting recipe');
+      }
+    );
+  }
+
+  addIngredient(name: string, id: number) {
+    if (!name) return;
+
+    // only add ingredient if it doesn't already exist
+    if (
+      this.recipe.ingredients.findIndex(
+        (ingredient) => ingredient.name === name
+      )
+    ) {
+      this.recipe.ingredients.push({ name });
+      this.selectedIngredients.push(name);
+      console.log(this.selectedIngredients);
+    }
+  }
+
+  removeIngredient(name: string, index: number) {
+    // find the ingredient and remove it from the array
+    this.recipe.ingredients.splice(
+      this.recipe.ingredients.findIndex(
+        (ingredient) => ingredient.name === name
+      ),
+      1
+    );
+
+    this.selectedIngredients.splice(
+      this.selectedIngredients.findIndex((ingredient) => ingredient === name),
+      1
+    );
+  }
+
+  handleAddRecipe() {
+    console.log(this.recipe);
+    if (!this.recipe.title) {
+      alert('Please enter a recipe name');
+      return;
+    }
+    if (!this.recipe.ingredients[0].name) {
+      alert('Please enter at least one ingredient');
+      return;
+    }
+
+    this.dataService.addRecipe(this.recipe).then(
+      () => {
+        alert('Recipe added successfully');
+        this.getAllRecipesByUser();
+      },
+      (error) => {
+        console.log(error);
+        alert('Error adding recipe');
       }
     );
   }

@@ -2,7 +2,12 @@ export interface Recipe {
   id: string;
   title: string;
   createdBy: string;
-  createdDate: Date;
   createdByEmail: string;
-  ingredients: string[];
+  createdDate: Date;
+  ingredients: Ingredients[];
+}
+
+export interface Ingredients {
+  name: string;
+  image?: string;
 }

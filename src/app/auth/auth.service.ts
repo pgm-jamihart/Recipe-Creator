@@ -10,9 +10,7 @@ export class AuthService {
     localStorage.getItem('isAuthenticated') || 'false'
   );
 
-  constructor(private fireAuth: AngularFireAuth, private router: Router) {
-    console.log(this.isAuthenticated);
-  }
+  constructor(private fireAuth: AngularFireAuth, private router: Router) {}
 
   // sign up with email and password using firebase auth
   async register(email: string, password: string) {
@@ -22,7 +20,12 @@ export class AuthService {
         password
       );
       if (result.user) {
-        localStorage.setItem('userId', result.user.uid);
+        const userObject = {
+          email: result.user.email,
+          uid: result.user.uid,
+        };
+
+        localStorage.setItem('user', JSON.stringify(userObject));
         localStorage.setItem('isAuthenticated', 'true');
         this.isAuthenticated =
           localStorage.getItem('isAuthenticated') === 'true';
@@ -42,7 +45,12 @@ export class AuthService {
         password
       );
       if (result.user) {
-        localStorage.setItem('userId', result.user.uid);
+        const userObject = {
+          email: result.user.email,
+          uid: result.user.uid,
+        };
+
+        localStorage.setItem('user', JSON.stringify(userObject));
         localStorage.setItem('isAuthenticated', 'true');
         this.isAuthenticated =
           localStorage.getItem('isAuthenticated') === 'true';
