@@ -38,4 +38,17 @@ export class MyRecipesComponent implements OnInit {
       }
     );
   }
+
+  deleteRecipe(recipeId: string) {
+    this.dataService.deleteRecipe(recipeId).then(
+      () => {
+        alert('Recipe deleted successfully');
+        this.getAllRecipesByUser();
+      },
+      (error) => {
+        console.log(error);
+        alert('Error deleting recipe');
+      }
+    );
+  }
 }
