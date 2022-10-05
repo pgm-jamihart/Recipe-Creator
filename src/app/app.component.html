@@ -10,6 +10,9 @@
       <button (click)="logout()">Logout</button>
     </ng-container>
   </div>
+  <div *ngIf="isAuthenticated()">
+    <a routerLink="/my-recipes">My recipes</a>
+  </div>
 </nav>
 
 <router-outlet></router-outlet>

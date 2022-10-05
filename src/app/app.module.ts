@@ -12,9 +12,10 @@ import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 import { RecipeBoardComponent } from './recipe-board/recipe-board.component';
 import { RecipeBoardModule } from './recipe-board/recipe-board.module';
+import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MyRecipesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

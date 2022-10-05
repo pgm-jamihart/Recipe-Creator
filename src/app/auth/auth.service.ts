@@ -13,10 +13,15 @@ export class AuthService {
   // sign up with email and password using firebase auth
   async register(email: string, password: string) {
     try {
-      await this.fireAuth.createUserWithEmailAndPassword(email, password);
-      localStorage.setItem('token', 'true');
-      this.isAuthenticated = true;
-      this.router.navigate(['/']);
+      const result = await this.fireAuth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      if (result.user) {
+        localStorage.setItem('token', result.user.uid);
+        this.isAuthenticated = true;
+        this.router.navigate(['/']);
+      }
     } catch (error) {
       console.error(error);
       alert(error);
@@ -30,8 +35,8 @@ export class AuthService {
         email,
         password
       );
-      if (result) {
-        localStorage.setItem('token', 'true');
+      if (result.user) {
+        localStorage.setItem('token', result.user.uid);
         this.isAuthenticated = true;
         this.router.navigate(['/']);
       }

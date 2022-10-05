@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { DataService } from '../shared/data.service';
 import { Recipe } from '../model/recipe';
+import { DataService } from '../shared/data.service';
 
 @Component({
-  selector: 'app-recipe-board',
-  templateUrl: './recipe-board.component.html',
-  styleUrls: ['./recipe-board.component.scss'],
+  selector: 'app-my-recipes',
+  templateUrl: './my-recipes.component.html',
+  styleUrls: ['./my-recipes.component.scss'],
 })
-export class RecipeBoardComponent implements OnInit {
-  recipeList: Recipe[] = [];
+export class MyRecipesComponent implements OnInit {
+  userRecipeList: Recipe[] = [];
+  userId: string | null = localStorage.getItem('token');
 
   constructor(
     private authService: AuthService,
@@ -17,13 +18,15 @@ export class RecipeBoardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllRecipes();
+    this.getAllRecipesByUser();
   }
 
-  getAllRecipes() {
-    this.dataService.getRecipes().subscribe(
+  getAllRecipesByUser() {
+    if (!this.userId) return;
+
+    this.dataService.getRecipesByUser(this.userId).subscribe(
       (results) => {
-        this.recipeList = results.map((result: any) => {
+        this.userRecipeList = results.map((result: any) => {
           const data = result.payload.doc.data();
           data.id = result.payload.doc.id;
           return data;
