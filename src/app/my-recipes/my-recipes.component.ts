@@ -14,6 +14,8 @@ export class MyRecipesComponent implements OnInit {
   user = JSON.parse(localStorage.getItem('user') || '{}');
   selectedIngredients: string[] = [];
   selectedRecipe: Recipe | null = null;
+  isAddRecipeOpen = false;
+  isUpdateRecipeOpen = false;
 
   recipe = {
     title: '',
@@ -167,6 +169,16 @@ export class MyRecipesComponent implements OnInit {
         alert('Error adding recipe');
       }
     );
+
+    this.recipe = {
+      title: '',
+      createdBy: this.user.uid,
+      createdByEmail: this.user.email,
+      createdDate: new Date(),
+      ingredients: [],
+    };
+    this.selectedIngredients = [];
+    this.isAddRecipeOpen = false;
   }
 
   editRecipe(recipe: Recipe) {
@@ -174,6 +186,8 @@ export class MyRecipesComponent implements OnInit {
     this.selectedIngredients = recipe.ingredients.map(
       (ingredient) => ingredient.name
     );
+
+    this.isUpdateRecipeOpen = true;
   }
 
   handleEditRecipe() {
@@ -187,5 +201,9 @@ export class MyRecipesComponent implements OnInit {
         alert('Error updating recipe');
       }
     );
+  }
+
+  handleAddRecipeToggle() {
+    this.isAddRecipeOpen = !this.isAddRecipeOpen;
   }
 }

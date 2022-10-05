@@ -1,114 +1,135 @@
-<p>my-recipes works!</p>
+<main>
+  <ul class="container">
+    <li class="card" *ngFor="let recipe of userRecipeList">
+      <div class="card__flex">
+        <span class="card__title">{{ recipe.title }}</span>
 
-<ul>
-  <li *ngFor="let recipe of userRecipeList">
-    <ng-container>{{ recipe.title }}</ng-container>
+        <div>
+          <button class="card__edit" (click)="editRecipe(recipe)">Edit</button>
+          <button class="card__delete" (click)="deleteRecipe(recipe.id)">
+            Delete
+          </button>
+        </div>
+      </div>
 
-    <ul>
-      <li *ngFor="let ingredient of recipe.ingredients">
-        <ng-container>{{ ingredient.name }}</ng-container>
-      </li>
-    </ul>
+      <ul class="card__info">
+        <span class="card__info__title">Ingredients:</span>
+        <li
+          class="card__info__ingredients"
+          *ngFor="let ingredient of recipe.ingredients"
+        >
+          <ng-container>{{ ingredient.name }}</ng-container>
+        </li>
+      </ul>
+    </li>
+  </ul>
 
-    <button (click)="deleteRecipe(recipe.id)">Delete</button>
-    <button (click)="editRecipe(recipe)">Edit</button>
-  </li>
-</ul>
+  <section class="recipe-form">
+    <button class="recipe-form__button" (click)="handleAddRecipeToggle()">
+      {{ isAddRecipeOpen ? "Cancel" : "Add Recipe" }}
+    </button>
 
-<button>Add recipe</button>
+    <div class="recipe-form__container" *ngIf="isAddRecipeOpen">
+      <form>
+        <h1>Add recipe</h1>
+        <div class="recipe-form__input">
+          <label for="recipe_title">Recipe title</label>
+          <input
+            type="text"
+            id="recipe_title"
+            placeholder="Recipe title"
+            name="recipe_title"
+            required
+            autocomplete
+            [(ngModel)]="recipe.title"
+          />
+        </div>
 
-<div>
-  <form>
-    <h1>Add recipe</h1>
-    <div>
-      <label for="recipe_title">Recipe title</label>
-      <input
-        type="text"
-        id="recipe_title"
-        placeholder="Recipe title"
-        name="recipe_title"
-        required
-        autocomplete
-        [(ngModel)]="recipe.title"
-      />
+        <div
+          class="recipe-form__ingredients"
+          *ngFor="let ingredient of IngredientsList; let i = index"
+        >
+          <!-- remove ingredients -->
+          <button
+            [disabled]="!selectedIngredients.includes(ingredient.name)"
+            (click)="removeIngredient(ingredient.name, i)"
+          >
+            -
+          </button>
+
+          <label for="ingredient">{{ ingredient.name }}</label>
+
+          <!-- add ingredients -->
+          <!-- disable button if the ingredient is already added -->
+          <button
+            [disabled]="selectedIngredients.includes(ingredient.name)"
+            (click)="addIngredient(ingredient.name, i)"
+          >
+            +
+          </button>
+        </div>
+
+        <button
+          class="primary__button"
+          (click)="handleAddRecipe()"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
     </div>
 
-    <div *ngFor="let ingredient of IngredientsList; let i = index">
-      <label for="ingredient">{{ ingredient.name }}</label>
+    <div class="recipe-form__container" *ngIf="isUpdateRecipeOpen">
+      <form>
+        <div class="recipe-form__title">
+          <h1>Update recipe</h1>
+          <button (click)="isUpdateRecipeOpen = false">Close</button>
+        </div>
+        <div class="recipe-form__input">
+          <label for="recipe_title">Recipe title</label>
+          <input
+            type="text"
+            id="recipe_title"
+            placeholder="Recipe title"
+            name="recipe_title"
+            required
+            autocomplete
+            [(ngModel)]="updateRecipe.title"
+          />
+        </div>
 
-      <!-- add ingredients -->
-      <!-- disable button if the ingredient is already added -->
-      <button
-        [disabled]="selectedIngredients.includes(ingredient.name)"
-        (click)="addIngredient(ingredient.name, i)"
-      >
-        +
-        {{ recipe.ingredients.includes(ingredient) ? "Added" : "Add" }}
-      </button>
+        <div
+          class="recipe-form__ingredients"
+          *ngFor="let ingredient of IngredientsList; let i = index"
+        >
+          <!-- remove ingredients -->
+          <button
+            [disabled]="!selectedIngredients.includes(ingredient.name)"
+            (click)="removeUpdateIngredient(ingredient.name, i)"
+          >
+            -
+          </button>
 
-      <!-- remove ingredients -->
-      <button
-        [disabled]="!selectedIngredients.includes(ingredient.name)"
-        (click)="removeIngredient(ingredient.name, i)"
-      >
-        -
-      </button>
+          <label for="ingredient">{{ ingredient.name }}</label>
+
+          <!-- add ingredients -->
+          <!-- disable button if the ingredient is already added -->
+          <button
+            [disabled]="selectedIngredients.includes(ingredient.name)"
+            (click)="addUpdateIngredient(ingredient.name, i)"
+          >
+            +
+          </button>
+        </div>
+
+        <button
+          class="primary__button"
+          (click)="handleEditRecipe()"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
     </div>
-
-    <div>
-      <button (click)="handleAddRecipe()" type="submit">Submit</button>
-    </div>
-  </form>
-
-  <div>
-    <p>Already have an account? <a routerLink="/login">Login</a></p>
-  </div>
-</div>
-
-<div>
-  <form>
-    <h1>Update recipe</h1>
-    <div>
-      <label for="recipe_title">Recipe title</label>
-      <input
-        type="text"
-        id="recipe_title"
-        placeholder="Recipe title"
-        name="recipe_title"
-        required
-        autocomplete
-        [(ngModel)]="updateRecipe.title"
-      />
-    </div>
-
-    <div *ngFor="let ingredient of IngredientsList; let i = index">
-      <label for="ingredient">{{ ingredient.name }}</label>
-
-      <!-- add ingredients -->
-      <!-- disable button if the ingredient is already added -->
-      <button
-        [disabled]="selectedIngredients.includes(ingredient.name)"
-        (click)="addUpdateIngredient(ingredient.name, i)"
-      >
-        +
-        {{ recipe.ingredients.includes(ingredient) ? "Added" : "Add" }}
-      </button>
-
-      <!-- remove ingredients -->
-      <button
-        [disabled]="!selectedIngredients.includes(ingredient.name)"
-        (click)="removeUpdateIngredient(ingredient.name, i)"
-      >
-        -
-      </button>
-    </div>
-
-    <div>
-      <button (click)="handleEditRecipe()" type="submit">Submit</button>
-    </div>
-  </form>
-
-  <div>
-    <p>Already have an account? <a routerLink="/login">Login</a></p>
-  </div>
-</div>
+  </section>
+</main>

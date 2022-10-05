@@ -1,15 +1,18 @@
-<p>recipe-board works!</p>
+<main>
+  <ul class="container">
+    <li class="card" *ngFor="let recipe of recipeList">
+      <span class="card__title">{{ recipe.title }}</span>
+      <span class="card__author">{{ recipe.createdByEmail }}</span>
 
-<ul>
-  <li *ngFor="let recipe of recipeList">
-    <ng-container
-      >{{ recipe.title }} - {{ recipe.createdByEmail }}</ng-container
-    >
-
-    <ul>
-      <li *ngFor="let ingredient of recipe.ingredients">
-        <ng-container>{{ ingredient.name }}</ng-container>
-      </li>
-    </ul>
-  </li>
-</ul>
+      <ul class="card__info">
+        <span class="card__info__title">Ingredients:</span>
+        <li
+          class="card__info__ingredients"
+          *ngFor="let ingredient of recipe.ingredients"
+        >
+          <ng-container>{{ ingredient.name }}</ng-container>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</main>

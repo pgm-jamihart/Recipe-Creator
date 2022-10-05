@@ -14,9 +14,10 @@ section {
     }
 
     form {
-      background-color: $light_yellow;
+      background-color: $dark_yellow;
       padding: 2rem;
       border-radius: 1rem;
+      border: 1px solid $green;
 
       h1 {
         margin-bottom: 1rem;
