@@ -1,1 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./variables.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 1rem;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.primary__button {
+  background-color: $green;
+  color: $white;
+}
+
+.auth__input__container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+
+  label {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  input {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 1rem;
+  }
+}

@@ -54,7 +54,7 @@ export class MyRecipesComponent implements OnInit {
         });
       },
       (error) => {
-        console.log(error);
+        console.error(error);
         alert('Error getting recipes');
       }
     );
@@ -69,7 +69,7 @@ export class MyRecipesComponent implements OnInit {
         });
       },
       (error) => {
-        console.log(error);
+        console.error(error);
         alert('Error getting ingredients');
       }
     );
@@ -99,7 +99,6 @@ export class MyRecipesComponent implements OnInit {
     ) {
       this.recipe.ingredients.push({ name });
       this.selectedIngredients.push(name);
-      console.log(this.selectedIngredients);
     }
   }
 
@@ -149,7 +148,6 @@ export class MyRecipesComponent implements OnInit {
   }
 
   handleAddRecipe() {
-    console.log(this.recipe);
     if (!this.recipe.title) {
       alert('Please enter a recipe name');
       return;

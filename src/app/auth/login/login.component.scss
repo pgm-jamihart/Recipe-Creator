@@ -1,0 +1,45 @@
+@import "../../../variables.scss";
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+
+  .auth {
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: 50%;
+    }
+
+    form {
+      background-color: $light_yellow;
+      padding: 2rem;
+      border-radius: 1rem;
+
+      h1 {
+        margin-bottom: 1rem;
+        color: $green;
+      }
+    }
+
+    &__link {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+
+      a {
+        color: $red;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 0.25rem;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
