@@ -6,17 +6,31 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean = JSON.parse(
+    localStorage.getItem('isAuthenticated') || 'false'
+  );
 
   constructor(private fireAuth: AngularFireAuth, private router: Router) {}
 
   // sign up with email and password using firebase auth
   async register(email: string, password: string) {
     try {
-      await this.fireAuth.createUserWithEmailAndPassword(email, password);
-      localStorage.setItem('token', 'true');
-      this.isAuthenticated = true;
-      this.router.navigate(['/']);
+      const result = await this.fireAuth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      if (result.user) {
+        const userObject = {
+          email: result.user.email,
+          uid: result.user.uid,
+        };
+
+        localStorage.setItem('user', JSON.stringify(userObject));
+        localStorage.setItem('isAuthenticated', 'true');
+        this.isAuthenticated =
+          localStorage.getItem('isAuthenticated') === 'true';
+        this.router.navigate(['/']);
+      }
     } catch (error) {
       console.error(error);
       alert(error);
@@ -30,9 +44,16 @@ export class AuthService {
         email,
         password
       );
-      if (result) {
-        localStorage.setItem('token', 'true');
-        this.isAuthenticated = true;
+      if (result.user) {
+        const userObject = {
+          email: result.user.email,
+          uid: result.user.uid,
+        };
+
+        localStorage.setItem('user', JSON.stringify(userObject));
+        localStorage.setItem('isAuthenticated', 'true');
+        this.isAuthenticated =
+          localStorage.getItem('isAuthenticated') === 'true';
         this.router.navigate(['/']);
       }
     } catch (error) {
@@ -45,8 +66,10 @@ export class AuthService {
   async logout() {
     try {
       await this.fireAuth.signOut();
-      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isAuthenticated');
       this.isAuthenticated = false;
+
       this.router.navigate(['/']);
     } catch (error) {
       console.error(error);

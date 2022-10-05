@@ -1,1 +1,144 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./variables.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-color: $light_yellow;
+}
+
+main {
+  padding-top: 2rem;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 1rem;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.primary__button {
+  background-color: $green;
+  color: $white;
+}
+
+.auth__input__container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+
+  label {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  input {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 1rem;
+  }
+}
+.container {
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    background-color: $white;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 1rem;
+    margin-bottom: 1rem;
+    width: calc(100% - 2rem);
+
+    @media screen and (min-width: 768px) {
+      width: calc(50% - 2rem);
+    }
+
+    &__title {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: $green;
+    }
+
+    &__flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__edit {
+      margin-right: 1rem;
+      color: $white;
+      background-color: $dark_gray;
+    }
+
+    &__delete {
+      color: $white;
+      background-color: $red;
+    }
+
+    &__author {
+      font-weight: 400;
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+      color: $dark_gray;
+    }
+
+    &__info {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      &__title {
+        font-weight: 600;
+        font-size: 1rem;
+        color: $red;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+
+      &__ingredients {
+        font-weight: 400;
+        font-size: 0.8rem;
+        color: $white;
+        background-color: $green;
+        border-radius: 1rem;
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

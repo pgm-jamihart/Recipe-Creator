@@ -1,0 +1,29 @@
+@import "../variables.scss";
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: $light_yellow;
+  padding: 1rem;
+
+  .logo {
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: $green;
+    }
+  }
+
+  nav {
+    a {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      color: $green;
+      margin-right: 1rem;
+    }
+  }
+}
