@@ -6,9 +6,13 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean = JSON.parse(
+    localStorage.getItem('isAuthenticated') || 'false'
+  );
 
-  constructor(private fireAuth: AngularFireAuth, private router: Router) {}
+  constructor(private fireAuth: AngularFireAuth, private router: Router) {
+    console.log(this.isAuthenticated);
+  }
 
   // sign up with email and password using firebase auth
   async register(email: string, password: string) {
@@ -18,8 +22,10 @@ export class AuthService {
         password
       );
       if (result.user) {
-        localStorage.setItem('token', result.user.uid);
-        this.isAuthenticated = true;
+        localStorage.setItem('userId', result.user.uid);
+        localStorage.setItem('isAuthenticated', 'true');
+        this.isAuthenticated =
+          localStorage.getItem('isAuthenticated') === 'true';
         this.router.navigate(['/']);
       }
     } catch (error) {
@@ -36,8 +42,10 @@ export class AuthService {
         password
       );
       if (result.user) {
-        localStorage.setItem('token', result.user.uid);
-        this.isAuthenticated = true;
+        localStorage.setItem('userId', result.user.uid);
+        localStorage.setItem('isAuthenticated', 'true');
+        this.isAuthenticated =
+          localStorage.getItem('isAuthenticated') === 'true';
         this.router.navigate(['/']);
       }
     } catch (error) {
@@ -50,8 +58,10 @@ export class AuthService {
   async logout() {
     try {
       await this.fireAuth.signOut();
-      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isAuthenticated');
       this.isAuthenticated = false;
+
       this.router.navigate(['/']);
     } catch (error) {
       console.error(error);

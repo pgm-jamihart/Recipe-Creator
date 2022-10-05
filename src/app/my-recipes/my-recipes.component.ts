@@ -10,7 +10,7 @@ import { DataService } from '../shared/data.service';
 })
 export class MyRecipesComponent implements OnInit {
   userRecipeList: Recipe[] = [];
-  userId: string | null = localStorage.getItem('token');
+  userId: string | null = localStorage.getItem('userId');
 
   constructor(
     private authService: AuthService,
