@@ -11,6 +11,7 @@
     </ul>
 
     <button (click)="deleteRecipe(recipe.id)">Delete</button>
+    <button (click)="editRecipe(recipe)">Edit</button>
   </li>
 </ul>
 
@@ -56,6 +57,54 @@
 
     <div>
       <button (click)="handleAddRecipe()" type="submit">Submit</button>
+    </div>
+  </form>
+
+  <div>
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+  </div>
+</div>
+
+<div>
+  <form>
+    <h1>Update recipe</h1>
+    <div>
+      <label for="recipe_title">Recipe title</label>
+      <input
+        type="text"
+        id="recipe_title"
+        placeholder="Recipe title"
+        name="recipe_title"
+        required
+        autocomplete
+        [(ngModel)]="updateRecipe.title"
+      />
+    </div>
+
+    <div *ngFor="let ingredient of IngredientsList; let i = index">
+      <label for="ingredient">{{ ingredient.name }}</label>
+
+      <!-- add ingredients -->
+      <!-- disable button if the ingredient is already added -->
+      <button
+        [disabled]="selectedIngredients.includes(ingredient.name)"
+        (click)="addUpdateIngredient(ingredient.name, i)"
+      >
+        +
+        {{ recipe.ingredients.includes(ingredient) ? "Added" : "Add" }}
+      </button>
+
+      <!-- remove ingredients -->
+      <button
+        [disabled]="!selectedIngredients.includes(ingredient.name)"
+        (click)="removeUpdateIngredient(ingredient.name, i)"
+      >
+        -
+      </button>
+    </div>
+
+    <div>
+      <button (click)="handleEditRecipe()" type="submit">Submit</button>
     </div>
   </form>
 

@@ -18,11 +18,6 @@ export class DataService {
     return this.afs.collection('recipes').add(recipe);
   }
 
-  // get a recipe
-  getRecipe(id: string) {
-    return this.afs.collection('recipes').doc(id).snapshotChanges();
-  }
-
   // update a recipe
   updateRecipe(id: string, recipe: Recipe) {
     return this.afs.collection('recipes').doc(id).update(recipe);

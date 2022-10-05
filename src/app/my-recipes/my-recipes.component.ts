@@ -13,8 +13,18 @@ export class MyRecipesComponent implements OnInit {
   IngredientsList: Ingredients[] = [];
   user = JSON.parse(localStorage.getItem('user') || '{}');
   selectedIngredients: string[] = [];
+  selectedRecipe: Recipe | null = null;
 
   recipe = {
+    title: '',
+    createdBy: this.user.uid,
+    createdByEmail: this.user.email,
+    createdDate: new Date(),
+    ingredients: this.IngredientsList,
+  };
+
+  updateRecipe = {
+    id: '',
     title: '',
     createdBy: this.user.uid,
     createdByEmail: this.user.email,
@@ -108,6 +118,36 @@ export class MyRecipesComponent implements OnInit {
     );
   }
 
+  addUpdateIngredient(name: string, id: number) {
+    if (!name) return;
+
+    // only add ingredient if it doesn't already exist
+    if (
+      this.updateRecipe.ingredients.findIndex(
+        (ingredient) => ingredient.name === name
+      )
+    ) {
+      this.updateRecipe.ingredients.push({ name });
+      this.selectedIngredients.push(name);
+      console.log(this.selectedIngredients);
+    }
+  }
+
+  removeUpdateIngredient(name: string, index: number) {
+    // find the ingredient and remove it from the array
+    this.updateRecipe.ingredients.splice(
+      this.updateRecipe.ingredients.findIndex(
+        (ingredient) => ingredient.name === name
+      ),
+      1
+    );
+
+    this.selectedIngredients.splice(
+      this.selectedIngredients.findIndex((ingredient) => ingredient === name),
+      1
+    );
+  }
+
   handleAddRecipe() {
     console.log(this.recipe);
     if (!this.recipe.title) {
@@ -127,6 +167,26 @@ export class MyRecipesComponent implements OnInit {
       (error) => {
         console.log(error);
         alert('Error adding recipe');
+      }
+    );
+  }
+
+  editRecipe(recipe: Recipe) {
+    this.updateRecipe = recipe;
+    this.selectedIngredients = recipe.ingredients.map(
+      (ingredient) => ingredient.name
+    );
+  }
+
+  handleEditRecipe() {
+    this.dataService.updateRecipe(this.updateRecipe.id, this.updateRecipe).then(
+      () => {
+        alert('Recipe updated successfully');
+        this.getAllRecipesByUser();
+      },
+      (error) => {
+        console.log(error);
+        alert('Error updating recipe');
       }
     );
   }
